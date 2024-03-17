@@ -31,8 +31,8 @@ const formSchema = z.object({
     .min(0, {
       message: "Must be greater than 0.",
     })
-    .max(35, {
-      message: "Must be 35 or less.",
+    .max(36, {
+      message: "Must be 36 or less.",
     })
     .regex(/^-?\d+(\.\d+)?$/, {
       message: "Must be a number.",
