@@ -86,7 +86,103 @@ export function ProfileForm() {
     }
     console.log(decimalDigits);
     console.log(values);
+    
+    console.log(convertToDecimal128(decimal, parseInt(exponent)));
   }
+
+  function convertToDecimal128( decimal: String, exponent: number){
+    const sign = decimal.startsWith('-') ? 1 : 0;
+    let CombiField;
+    let ExpConti;
+    let coeffConti ="";
+    
+    // Remove the negative sign if present
+    if (decimal.startsWith('-')) {
+        decimal = decimal.substring(1);
+    }
+    console.log('hello');
+    const MSD = decimal.charAt(0); //get msd
+
+    let convertMSDToBinary = padZeros(decimalToBinary(parseInt(MSD)), 4); //convert msd to binary and pad 0's to it
+    
+    let E_PrimeBinary = padZeros(decimalToBinary(exponent + 6176), 14); //convert eprime to binary and pad 0's until it 14 bits
+
+
+    //get the combifield
+    const checkMSD = parseInt(MSD);
+    if(checkMSD >= 0 && checkMSD <= 7){
+      CombiField = E_PrimeBinary.charAt(0) + E_PrimeBinary.charAt(1) + convertMSDToBinary.charAt(1) + convertMSDToBinary.charAt(2) + convertMSDToBinary.charAt(3)
+    }else if(checkMSD >= 8 && checkMSD <= 9){
+      CombiField = "1" + "1" + E_PrimeBinary.charAt(0) + E_PrimeBinary.charAt(1) + convertMSDToBinary.charAt(3)
+    }else{
+      console.log("something went wrong")
+    }
+
+    //get exponential continuaton field
+    ExpConti = E_PrimeBinary.slice(2, 14);
+
+
+    for (let i = 1; i < decimal.length; i += 3) {
+      coeffConti = coeffConti + decimalToPackBCD(decimal.slice(i, i + 3))
+    }
+    
+
+    return sign  + " | " + CombiField + " | " + ExpConti + " | " + coeffConti;
+  }
+
+
+
+  //dont ask
+  function decimalToPackBCD(decimal: string){
+    let toBinary = padZeros(decimalToBinary(parseInt(decimal.charAt(0))), 4) + padZeros(decimalToBinary(parseInt(decimal.charAt(1))), 4) + padZeros(decimalToBinary(parseInt(decimal.charAt(2))), 4)
+    let a = toBinary.charAt(0);
+    let b = toBinary.charAt(1);
+    let c = toBinary.charAt(2);
+    let d = toBinary.charAt(3);
+
+    let e = toBinary.charAt(4);
+    let f = toBinary.charAt(5);
+    let g = toBinary.charAt(6);
+    let h = toBinary.charAt(7);
+
+    let i = toBinary.charAt(8);
+    let j = toBinary.charAt(9);
+    let k = toBinary.charAt(10);
+    let m = toBinary.charAt(11);
+
+
+    if(a === "0" && e === "0" && i === "0") 
+      return b + c + d + f + g + h + "0" + j + k + m;
+    if(a=== "0" && e === "0" && i === "1") 
+      return b + c + d + f + g + h + "1" + "0" + "0" + m;
+    if(a === "0" && e === "1" && i=== "0") 
+      return b + c + d + j + k + h + "1" + "0" + "1" + m;
+    if(a === "0" && e === "1" && i === "1") 
+      return b + c + d + "1" + "0" + h + "1" + "1" + "1" + m;
+    if(a === "1" && e === "0" && i === "0") 
+      return j + k + d + f + g + h + "1" + "1" + "0" + m;
+    if(a === "1" && e === "0" && i === "1") 
+      return f + g + d + "0" + "1" + h + "1" + "1" + "1" + m;
+    if(a === "1" && e === "1" && i === "0") 
+      return j + k + d + "0" + "0" + h + "1" + "1" + "1" + m;
+    if(a === "1" && e === "1" && i === "1") 
+      return "0" + "0" + d + "1" + "1" + h + "1" + "1" + "1" + m;
+    return ""
+  }
+
+
+  function decimalToBinary(decimal: number): string {
+    return (decimal >>> 0).toString(2);
+  }
+
+function padZeros(binaryStr: string, length: number): string {
+    while (binaryStr.length < length) {
+        binaryStr = '0' + binaryStr;
+    }
+    return binaryStr;
+  }
+
+
 
   return (
     <Form {...form}>
