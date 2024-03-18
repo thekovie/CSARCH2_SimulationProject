@@ -87,7 +87,10 @@ export function ProfileForm() {
     console.log(decimalDigits);
     console.log(values);
     
-    console.log(convertToDecimal128(decimal, parseInt(exponent)));
+
+    let decimalto128 = convertToDecimal128(decimal, parseInt(exponent))
+    console.log(decimalto128);
+    console.log(binaryToHex(decimalto128.replace(/\s/g, '')));
   }
 
   function convertToDecimal128( decimal: String, exponent: number){
@@ -127,7 +130,7 @@ export function ProfileForm() {
     }
     
 
-    return sign  + " | " + CombiField + " | " + ExpConti + " | " + coeffConti;
+    return sign  + " " + CombiField + " " + ExpConti + " " + coeffConti;
   }
 
 
@@ -174,6 +177,25 @@ export function ProfileForm() {
   function decimalToBinary(decimal: number): string {
     return (decimal >>> 0).toString(2);
   }
+
+  function binaryToHex(binaryString: string) {
+    // Pad the binary string with zeros to ensure it's a multiple of 4 characters
+    while (binaryString.length % 4 !== 0) {
+        binaryString = '0' + binaryString;
+    }
+
+    // Initialize the hexadecimal string
+    let hexadecimalString = '';
+
+    // Convert each group of 4 binary digits to its hexadecimal equivalent
+    for (let i = 0; i < binaryString.length; i += 4) {
+        let group = binaryString.substr(i, 4); // Extract 4 characters from the binary string
+        let hexDigit = parseInt(group, 2).toString(16); // Convert the group to hexadecimal
+        hexadecimalString += hexDigit; // Append the hexadecimal digit to the result string
+    }
+
+    return hexadecimalString.toUpperCase(); // Convert to uppercase for consistency
+}
 
 function padZeros(binaryStr: string, length: number): string {
     while (binaryStr.length < length) {
