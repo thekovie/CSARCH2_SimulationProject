@@ -31,9 +31,6 @@ const formSchema = z.object({
     .min(0, {
       message: "Must be greater than 0.",
     })
-    .max(36, {
-      message: "Must be 36 or less.",
-    })
     .regex(/^-?\d+(\.\d+)?$/, {
       message: "Must be a number.",
     }),
@@ -42,13 +39,10 @@ const formSchema = z.object({
     .min(0, {
       message: "Must be greater than 0.",
     })
-    .max(35, {
-      message: "Must be 35 or less.",
-    })
-    .regex(/^[0-9]+$/, {
+    .regex(/^-?\d+$/, {
       message: "Must be a number.",
     }),
-  method: z.enum(["one", "two", "three"]),
+  method: z.enum(["truncation", "ceiling", "floor", "RTN-TE"]),
 });
 
 export function ProfileForm() {
@@ -112,9 +106,12 @@ export function ProfileForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="one">Method 1</SelectItem>
-                  <SelectItem value="two">Method 2</SelectItem>
-                  <SelectItem value="three">Method 3</SelectItem>
+                  <SelectItem value="truncation">Truncation</SelectItem>
+                  <SelectItem value="ceiling">Ceiling</SelectItem>
+                  <SelectItem value="floor">Floor</SelectItem>
+                  <SelectItem value="RTN-TE">
+                    Round to Nearest Ties to Even
+                  </SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>Select a rounding method.</FormDescription>
