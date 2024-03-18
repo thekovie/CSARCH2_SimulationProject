@@ -134,7 +134,6 @@ export function ProfileForm() {
   }
 
 
-
   //dont ask
   function decimalToPackBCD(decimal: string){
     let toBinary = padZeros(decimalToBinary(parseInt(decimal.charAt(0))), 4) + padZeros(decimalToBinary(parseInt(decimal.charAt(1))), 4) + padZeros(decimalToBinary(parseInt(decimal.charAt(2))), 4)
@@ -179,22 +178,18 @@ export function ProfileForm() {
   }
 
   function binaryToHex(binaryString: string) {
-    // Pad the binary string with zeros to ensure it's a multiple of 4 characters
     while (binaryString.length % 4 !== 0) {
         binaryString = '0' + binaryString;
     }
 
-    // Initialize the hexadecimal string
     let hexadecimalString = '';
 
-    // Convert each group of 4 binary digits to its hexadecimal equivalent
     for (let i = 0; i < binaryString.length; i += 4) {
-        let group = binaryString.substr(i, 4); // Extract 4 characters from the binary string
-        let hexDigit = parseInt(group, 2).toString(16); // Convert the group to hexadecimal
-        hexadecimalString += hexDigit; // Append the hexadecimal digit to the result string
+        let group = binaryString.substr(i, 4);
+        let hexDigit = parseInt(group, 2).toString(16);
+        hexadecimalString += hexDigit;
     }
-
-    return hexadecimalString.toUpperCase(); // Convert to uppercase for consistency
+    return hexadecimalString.toUpperCase();
 }
 
 function padZeros(binaryStr: string, length: number): string {
