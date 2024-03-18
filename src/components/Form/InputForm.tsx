@@ -56,6 +56,35 @@ export function ProfileForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // TODO: do something with the form values
+    const { decimal, exponent, method } = values;
+
+    // get rid of leading zeros
+    let decimalNum = parseFloat(decimal);
+    let decimalString = decimalNum.toString();
+
+    let decimalDigits = decimalString.length;
+    if (decimal.includes(".")) decimalDigits -= 1;
+    if (decimal.includes("-")) decimalDigits -= 1;
+
+    const exponentDecimal = parseInt(exponent);
+    if (decimalDigits > 34) {
+      // move decimal point to 34th digit
+      let pointIndex = decimalString.indexOf(".");
+      if (pointIndex === -1) pointIndex = decimalDigits;
+      // shift decimal point to the right if pointIndex < 34
+      // shift decimal point to the left if pointIndex > 34
+
+      // TODO: rounding based on option
+    }
+    if (exponentDecimal > 6177) {
+      console.log("Error: Exponent is too large.");
+      return;
+    }
+    if (exponentDecimal < -6176) {
+      console.log("Error: Exponent is too small.");
+      return;
+    }
+    console.log(decimalDigits);
     console.log(values);
   }
 
