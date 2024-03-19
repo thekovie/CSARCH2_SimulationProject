@@ -195,7 +195,7 @@ export function ProfileForm() {
     // console.log("decimalString", decimalString);
     let decimalto128 = convertToDecimal128(decimalString, exponentDecimal);
     console.log(decimalto128);
-    // console.log(binaryToHex(decimalto128.replace(/\s/g, "")));
+    console.log(binaryToHex(decimalto128.replaceAll(" ", "")));
   }
 
   function convertToDecimal128(decimal: String, exponent: number) {
@@ -290,18 +290,20 @@ export function ProfileForm() {
   }
 
   function binaryToHex(binaryString: string) {
-    while (binaryString.length % 4 !== 0) {
-      binaryString = "0" + binaryString;
-    }
-
-    let hexadecimalString = "";
-
+    // add a space every 4 digits
+    let binaryStringWithSpaces = "";
     for (let i = 0; i < binaryString.length; i += 4) {
-      let group = binaryString.substring(i, 4);
-      let hexDigit = parseInt(group, 2).toString(16);
-      hexadecimalString += hexDigit;
+      binaryStringWithSpaces += binaryString.substring(i, i + 4) + " ";
     }
-    return hexadecimalString.toUpperCase();
+
+    let hexString = "";
+
+    for (let i = 0; i < binaryStringWithSpaces.length; i += 5) {
+      let group = binaryStringWithSpaces.substring(i, i + 4);
+      let hexDigit = parseInt(group, 2).toString(16);
+      hexString += hexDigit;
+    }
+    return hexString.toUpperCase();
   }
 
   function padZeros(binaryStr: string, length: number): string {
