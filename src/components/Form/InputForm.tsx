@@ -228,24 +228,39 @@ export function ProfileForm() {
 
     let E_PrimeBinary = padZeros(decimalToBinary(exponent + 6176), 14); //convert eprime to binary and pad 0's until it 14 bits
 
-    //get the combifield
-    const checkMSD = parseInt(MSD);
-    if (checkMSD >= 0 && checkMSD <= 7) {
-      CombiField =
-        E_PrimeBinary.charAt(0) +
-        E_PrimeBinary.charAt(1) +
-        convertMSDToBinary.charAt(1) +
-        convertMSDToBinary.charAt(2) +
-        convertMSDToBinary.charAt(3);
-    } else if (checkMSD >= 8 && checkMSD <= 9) {
-      CombiField =
+    if (exponent > 6111) {                                 // infinity
+        CombiField = 
         "1" +
         "1" +
-        E_PrimeBinary.charAt(0) +
-        E_PrimeBinary.charAt(1) +
-        convertMSDToBinary.charAt(3);
-    } else {
-      console.log("something went wrong");
+        "1" +
+        "1" +
+        "0";
+    } else if (exponent <= 6111 && exponent >= -6176) {       // finite
+      const checkMSD = parseInt(MSD);
+      if (checkMSD >= 0 && checkMSD <= 7) {
+        CombiField =
+          E_PrimeBinary.charAt(0) +
+          E_PrimeBinary.charAt(1) +
+          convertMSDToBinary.charAt(1) +
+          convertMSDToBinary.charAt(2) +
+          convertMSDToBinary.charAt(3);
+      } else if (checkMSD >= 8 && checkMSD <= 9) {
+        CombiField =
+          "1" +
+          "1" +
+          E_PrimeBinary.charAt(0) +
+          E_PrimeBinary.charAt(1) +
+          convertMSDToBinary.charAt(3);
+      } else {
+        console.log("something went wrong");
+      }
+    } else {                                                  // NaN
+      CombiField = 
+        "1" +
+        "1" +
+        "1" +
+        "1" +
+        "1";
     }
 
     //get exponential continuaton field
