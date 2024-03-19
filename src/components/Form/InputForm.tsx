@@ -57,12 +57,7 @@ export function ProfileForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { decimal, exponent, method } = values;
 
-    // get rid of leading zeros
-    let decimalNum = parseFloat(decimal);
-    let decimalString = decimalNum.toString();
-    if (decimalString.includes("e")) {
-      decimalString = decimal;
-    }
+    let decimalString = decimal;
 
     let decimalDigits = decimalString.length;
     if (decimal.includes(".")) decimalDigits -= 1;
@@ -70,6 +65,19 @@ export function ProfileForm() {
 
     let exponentDecimal = parseInt(exponent);
 
+    // remove leading 0s
+    let i = 0;
+    let negative = decimalString.startsWith("-");
+    if (negative) decimalString = decimalString.substring(1);
+    while (i < decimalString.length) {
+      if (decimalString.charAt(i) === "0") {
+        decimalString = decimalString.substring(1);
+        decimalDigits -= 1;
+      } else {
+        break;
+      }
+    }
+    if (negative) decimalString = "-" + decimalString;
     if (decimalDigits <= 34) {
       // pad with 0s
       let pad = 34 - decimalDigits;
@@ -77,21 +85,26 @@ export function ProfileForm() {
       decimalString = decimalString.padStart(decimalDigits + pad, "0");
 
       // if decimal is negative, move sign to the front
-      if (decimalString.includes("-")) {
+      if (negative) {
         decimalString = decimalString.replace("-", "0");
         decimalString = "-" + decimalString;
       }
     }
-    // move decimal point to end of last non-zero digit
+    // move decimal point to end of last digit
     let pointIndex = decimalString.indexOf(".");
     if (pointIndex === -1) pointIndex = decimalString.length - 1;
 
     let shift = 0;
-    // if pointIndex is greater than 33, shift point to the left
-    if (pointIndex > 33) shift = decimalString.length - 34;
-    // if pointIndex is less than or equal to 33, shift point to the right
-    else shift = decimalString.length - pointIndex - 1;
 
+    // if pointIndex is greater than 33, shift point to the left
+    if (pointIndex > 33) {
+      shift = decimalString.length - 34;
+      if (negative) shift -= 1;
+    }
+    // if pointIndex is less than or equal to 33, shift point to the right
+    else {
+      shift = decimalString.length - pointIndex - 1;
+    }
     exponentDecimal -= shift;
     decimalString = decimalString.replace(".", "");
 
@@ -106,9 +119,9 @@ export function ProfileForm() {
 
     // console.log(decimalDigits);
     // console.log(values);
-    // console.log("shift", shift);
+    console.log("shift", shift);
 
-    // console.log("exponentDecimal", exponentDecimal);
+    console.log("exponentDecimal", exponentDecimal);
     // perform rounding if needed
     if (decimalDigits > 34) {
       let round = 0;
