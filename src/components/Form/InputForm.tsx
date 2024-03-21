@@ -45,7 +45,13 @@ const formSchema = z.object({
   method: z.enum(["truncation", "ceiling", "floor", "RTN-TE"]),
 });
 
-export function ProfileForm() {
+interface Props {
+  // onSubmit: (values: z.infer<typeof formSchema>) => void;
+  passDecimal128: (decimal128: string) => void;
+  passHex: (hex: string) => void;
+}
+
+export function ProfileForm({ passDecimal128, passHex }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -207,7 +213,9 @@ export function ProfileForm() {
     console.log("rounded decimalString", decimalString);
     // console.log("decimalString", decimalString);
     let decimalto128 = convertToDecimal128(decimalString, exponentDecimal);
+    passDecimal128(decimalto128);
     console.log(decimalto128);
+    passHex(binaryToHex(decimalto128.replaceAll(" ", "")));
     console.log(binaryToHex(decimalto128.replaceAll(" ", "")));
   }
 
