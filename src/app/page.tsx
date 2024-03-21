@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import InputForm from "@/components/Form/InputForm";
 import { Metadata } from "next";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [decimal128, setDecimal128] = React.useState<string>("");
@@ -25,6 +26,16 @@ export default function Home() {
     setExponent(split128[2]);
     setContinuation(split128[3]);
   }, [decimal128]);
+
+  function downloadTextFile() {
+    const text = `Answer:\n${sign} ${combi} ${exponent} ${continuation} ${hex}\n\nSign: ${sign}\nCombi: ${combi}\nExponent: ${exponent}\nContinuation: ${continuation}\nHex: ${hex}`;
+    const element = document.createElement("a");
+    const file = new Blob([text], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = "floating_point.txt";
+    document.body.appendChild(element);
+    element.click();
+  }
   
 
   return (
@@ -37,6 +48,7 @@ export default function Home() {
       </p>
 
       <InputForm passDecimal128={passDecimal128} passHex={passHex}/>
+
       { decimal128 && 
         <div className="answer flex flex-col flex-wrap items-center mt-8">
           <h2 className="font-bold text-2xl">Answer</h2>
@@ -62,6 +74,9 @@ export default function Home() {
               <p className="text-xl break-all">{hex}</p>
             </div>
           </div>
+          <Button className="mt-8" onClick={downloadTextFile}>
+            Download as text file
+          </Button>
         </div>
        }
     </main>
