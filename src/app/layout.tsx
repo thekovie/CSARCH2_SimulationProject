@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
-      <div className="flex flex-row justify-between bg-gray-600 text-white p-8">
+      <div className="flex flex-col sm:flex-row justify-between bg-gray-600 text-white p-8">
         <div className="footer flex flex-col">
           <p className="font-semibold">Created by CSARCH2 S11 Group 4</p>
           <p className="text-sm mt-2">Go, Javellana, Martinez, Niño</p>
