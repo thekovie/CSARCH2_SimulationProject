@@ -74,7 +74,6 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
     if (pointIndex === -1) pointIndex = decimalString.length;
 
     // remove trailing 0s
-    let inc = 0;
     let j = decimalString.length - 1;
     while (decimalString.charAt(j) === "0" || decimalString.charAt(j) === ".") {
       if (j < pointIndex) {
@@ -113,21 +112,21 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
       }
     }
     // move decimal point to end of last digit
+    if (negative) {
+      decimalString = decimalString.replace("-", "");
+    }
     pointIndex = decimalString.indexOf(".");
-    if (pointIndex === -1) pointIndex = decimalString.length - 1;
-
+    if (pointIndex === -1) pointIndex = decimalDigits;
     let shift = 0;
+    // console.log("pointIndex", pointIndex);
+    // console.log("decimalDigits", decimalDigits);
 
     // if pointIndex is greater than 33, shift point to the left
-    if (pointIndex > 33) {
-      shift = decimalString.length - 34;
-      if (negative) shift -= 1;
+    if (pointIndex !== decimalDigits || pointIndex > 34) {
+      shift = 34 - pointIndex;
+      exponentDecimal -= shift;
     }
-    // if pointIndex is less than or equal to 33, shift point to the right
-    else {
-      shift = decimalString.length - pointIndex - 1;
-    }
-    exponentDecimal -= shift;
+    if (negative) decimalString = "-" + decimalString;
     decimalString = decimalString.replace(".", "");
 
     // console.log(decimalDigits);
@@ -139,9 +138,10 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
     if (decimalDigits > 34) {
       let round = 0;
       let roundIndex = 34;
-      console.log("to evaluate ", decimalString.charAt(roundIndex));
-
       const negative = decimalString.startsWith("-");
+      if (negative) roundIndex = 35;
+      // console.log("to evaluate ", decimalString.charAt(roundIndex));
+
       if (!negative) {
         if (method === "truncation") {
           round = 0;
@@ -157,7 +157,7 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
             round = -1;
           } else {
             if (parseInt(decimalString.charAt(roundIndex - 1)) % 2 !== 0) {
-              let i = roundIndex + 1;
+              let i = roundIndex;
               while (i < decimalString.length) {
                 if (parseInt(decimalString.substring(i)) > 0) {
                   round = 1;
