@@ -61,7 +61,11 @@ const ClientParent = () => {
               </div>
               <div className="flex flex-col mt-4">
                 <p className="text-gray-500">Hex</p>
-                <p className="text-xl break-all">0x{hex}</p>
+                <div className="flex flex-row">
+                <p className="text-xl">0</p>
+                <p className="text-xl">x</p>
+                <p className="text-xl break-all">{hex}</p>
+                </div>
               </div>
             </div>
             <Button className="mt-8" onClick={downloadTextFile}>
