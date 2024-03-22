@@ -1,13 +1,10 @@
-import React from "react";
-import InputForm from "@/components/Form/InputForm";
+"use client"
+import ClientParent from "@/components/ClientParent";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Decimal-128 Floating Point Converter",
-  description: "Convert a decimal number to a 128-bit floating point number.",
-};
 
 export default function Home() {
+  
   return (
     <main className="flex flex-col min-h-screen p-8 sm:p-24 items-center">
       <h1 className="font-bold text-2xl">
@@ -16,8 +13,7 @@ export default function Home() {
       <p className="text-gray-500 mt-2">
         Convert a decimal number to a 128-bit floating point number.
       </p>
-
-      <InputForm />
+      <ClientParent></ClientParent>
     </main>
   );
 }
