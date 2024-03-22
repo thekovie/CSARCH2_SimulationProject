@@ -77,11 +77,10 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
     let inc = 0;
     let j = decimalString.length - 1;
     while (decimalString.charAt(j) === "0" || decimalString.charAt(j) === ".") {
-
       if (j < pointIndex) {
         // if 0 is part of the whole number, move decimal point to the left
         exponentDecimal += 1;
-        pointIndex -= 1
+        pointIndex -= 1;
       }
       decimalString = decimalString.substring(0, j);
       j--;
@@ -140,6 +139,8 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
     if (decimalDigits > 34) {
       let round = 0;
       let roundIndex = 34;
+      console.log("to evaluate ", decimalString.charAt(roundIndex));
+
       const negative = decimalString.startsWith("-");
       if (!negative) {
         if (method === "truncation") {
@@ -150,18 +151,20 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
           round = -1;
         } else if (method === "RTN-TE") {
           round = 0;
-          if (parseInt(decimalString.charAt(roundIndex)) > 4) {
+          if (parseInt(decimalString.charAt(roundIndex)) > 5) {
             round = 1;
-          } else if (parseInt(decimalString.charAt(roundIndex)) < 4) {
+          } else if (parseInt(decimalString.charAt(roundIndex)) < 5) {
             round = -1;
           } else {
-            let i = roundIndex + 1;
-            while (i < decimalString.length) {
-              if (parseInt(decimalString.substring(i)) > 0) {
-                round = 1;
-                break;
+            if (parseInt(decimalString.charAt(roundIndex - 1)) % 2 !== 0) {
+              let i = roundIndex + 1;
+              while (i < decimalString.length) {
+                if (parseInt(decimalString.substring(i)) > 0) {
+                  round = 1;
+                  break;
+                }
+                i++;
               }
-              i++;
             }
           }
         }
@@ -176,18 +179,21 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
           round = 1;
         } else if (method === "RTN-TE") {
           round = 0;
-          if (parseInt(decimalString.charAt(roundIndex)) > 4) {
+          if (parseInt(decimalString.charAt(roundIndex)) > 5) {
             round = 1;
-          } else if (parseInt(decimalString.charAt(roundIndex)) < 4) {
+          } else if (parseInt(decimalString.charAt(roundIndex)) < 5) {
             round = -1;
           } else {
-            let i = roundIndex + 1;
-            while (i < decimalString.length) {
-              if (parseInt(decimalString.charAt(i)) > 0) {
-                round = -1;
-                break;
+            if (parseInt(decimalString.charAt(roundIndex - 1)) % 2 !== 0) {
+              let i = roundIndex;
+
+              while (i < decimalString.length) {
+                if (parseInt(decimalString.charAt(i)) > 0) {
+                  round = 1;
+                  break;
+                }
+                i++;
               }
-              i++;
             }
           }
         }
@@ -244,14 +250,11 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
 
     let E_PrimeBinary = padZeros(decimalToBinary(exponent + 6176), 14); //convert eprime to binary and pad 0's until it 14 bits
 
-    if (exponent > 6111) {                                   // infinity
-        CombiField = 
-        "1" +
-        "1" +
-        "1" +
-        "1" +
-        "0";
-    } else if (exponent <= 6111 && exponent >= -6176) {       // finite
+    if (exponent > 6111) {
+      // infinity
+      CombiField = "1" + "1" + "1" + "1" + "0";
+    } else if (exponent <= 6111 && exponent >= -6176) {
+      // finite
       const checkMSD = parseInt(MSD);
       if (checkMSD >= 0 && checkMSD <= 7) {
         CombiField =
@@ -270,13 +273,9 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
       } else {
         console.log("something went wrong");
       }
-    } else {                                                  // NaN
-      CombiField = 
-        "1" +
-        "1" +
-        "1" +
-        "1" +
-        "1";
+    } else {
+      // NaN
+      CombiField = "1" + "1" + "1" + "1" + "1";
     }
 
     //get exponential continuaton field
