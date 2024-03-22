@@ -70,6 +70,23 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
     if (decimal.includes("-")) decimalDigits -= 1;
 
     let exponentDecimal = parseInt(exponent);
+    let pointIndex = decimalString.indexOf(".");
+    if (pointIndex === -1) pointIndex = decimalString.length;
+
+    // remove trailing 0s
+    let inc = 0;
+    let j = decimalString.length - 1;
+    while (decimalString.charAt(j) === "0" || decimalString.charAt(j) === ".") {
+
+      if (j < pointIndex) {
+        // if 0 is part of the whole number, move decimal point to the left
+        exponentDecimal += 1;
+        pointIndex -= 1
+      }
+      decimalString = decimalString.substring(0, j);
+      j--;
+      decimalDigits -= 1;
+    }
 
     // remove leading 0s
     let i = 0;
@@ -97,7 +114,7 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
       }
     }
     // move decimal point to end of last digit
-    let pointIndex = decimalString.indexOf(".");
+    pointIndex = decimalString.indexOf(".");
     if (pointIndex === -1) pointIndex = decimalString.length - 1;
 
     let shift = 0;
