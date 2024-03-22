@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -20,8 +21,8 @@ export default function RootLayout({
       <body className={inter.className}>{children}</body>
       <div className="flex flex-col sm:flex-row justify-between bg-gray-600 text-white p-8">
         <div className="footer flex flex-col">
-          <p className="font-semibold">Created by CSARCH2 S11 Group 4</p>
-          <p className="text-sm mt-2">Go, Javellana, Martinez, Niño</p>
+          <span className="font-semibold">Created by CSARCH2 S11 Group 4</span>
+          <span className="text-sm mt-2">Go, Javellana, Martinez, Niño</span>
         </div>
         <Link href="https://github.com/thekovie/CSARCH2_SimulationProject" target="_blank" className="text-sm mt-4 hover:underline items-end">GitHub Repository</Link>
       </div>
