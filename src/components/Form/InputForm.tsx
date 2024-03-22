@@ -131,15 +131,6 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
     exponentDecimal -= shift;
     decimalString = decimalString.replace(".", "");
 
-    if (exponentDecimal > 6177) {
-      alert("Error: Exponent is too large.");
-      return;
-    }
-    if (exponentDecimal < -6176) {
-      alert("Error: Exponent is too small.");
-      return;
-    }
-
     // console.log(decimalDigits);
     // console.log(values);
     console.log("shift", shift);
@@ -253,7 +244,7 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
 
     let E_PrimeBinary = padZeros(decimalToBinary(exponent + 6176), 14); //convert eprime to binary and pad 0's until it 14 bits
 
-    if (exponent > 6111) {                                 // infinity
+    if (exponent > 6111) {                                   // infinity
         CombiField = 
         "1" +
         "1" +
