@@ -1,5 +1,5 @@
 # Decimal-128 Floating-Point Converter
-This web application will convert a decimal value to its IEE-754 Decimal-128 floating-point value.
+This web application will convert a decimal value to its IEEE-754 Decimal-128 floating-point value.
 
 _This project is for the CSARCH2 class at De La Salle University._
 
@@ -23,7 +23,7 @@ Here is the video showcase of our program. The video consists of the build and r
 Alternatively, you can watch the video [here](https://youtu.be/lGAIaj_AYEA).
 
 # Test Cases
-Here are the test cases the team conducted. Kindly wait for the screenshots to load up.
+Here are the test cases the team conducted. **Kindly wait for the screenshots to load up.**
 
 ## Positive Cases
 ### $12345000_{10} x 10^{125}$
