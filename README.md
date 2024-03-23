@@ -24,8 +24,9 @@ Here is the video showcase of our program. The video consists of the build and r
 Alternatively, you can watch the video [here](https://youtu.be/f0S8zJsojmI).
 
 # Analysis Writeup
-You may view the analysis writeup [here](https://github.com/thekovie/CSARCH2_SimulationProject/files/14731496/CSARCH2_S11_G4.Writeup.Analysis.1.pdf).
+You may view the analysis writeup [here](https://docs.google.com/viewer?url=https://github.com/thekovie/CSARCH2_SimulationProject/files/14731496/CSARCH2_S11_G4.Writeup.Analysis.1.pdf).
 
+Alternatively, you may download our pdf [here](https://github.com/thekovie/CSARCH2_SimulationProject/files/14731496/CSARCH2_S11_G4.Writeup.Analysis.1.pdf).
 
 
 # Test Cases
