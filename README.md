@@ -21,7 +21,7 @@ _This project is for the CSARCH2 class at De La Salle University._
 # Project Showcase Video
 Here is the video showcase of our program. The video consists of the build and run of the web application, including the test cases we conducted.
 <video src="https://github.com/thekovie/CSARCH2_SimulationProject/assets/40118781/54b20c95-b29e-4f68-bd49-c48bd8d3d059"></video>
-Alternatively, you can watch the video [here](https://youtu.be/lGAIaj_AYEA).
+Alternatively, you can watch the video [here](https://youtu.be/f0S8zJsojmI).
 
 # Analysis Writeup
 You may view the analysis writeup [here]().
