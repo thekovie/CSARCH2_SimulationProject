@@ -15,6 +15,7 @@ _This project is for the CSARCH2 class at De La Salle University._
    - [Rounding to 34 digits (Positive) with Different Rounding Methods](#rounding-to-34-digits-positive-with-different-rounding-methods)
    - [Rounding to 34 digits (Negative) with Different Rounding Methods](#rounding-to-34-digits-negative-with-different-rounding-methods)
 - [Text File Output](#text-file-output)
+- [Team Members](#team-members)
 
 # Project Showcase Video
 Here is the video showcase of our program. The video consists of the build and run of the web application, including the test cases we conducted.
@@ -103,10 +104,12 @@ Here is a preview of what the `.txt` file should look like if the user prompts t
    <img width="758" alt="image" src="https://github.com/thekovie/CSARCH2_SimulationProject/assets/40118781/66a3b082-1850-4feb-b830-cff9a31a4c52">
 </div>
 
-
-
-
-
+# Team Members
+This project is developed by S11 Group 4
+- Go, Ar Jettherson
+- Javellana, Mac Andre
+- Martinez, Jose Raphael
+- Niño, John Kovie
 
 
 
