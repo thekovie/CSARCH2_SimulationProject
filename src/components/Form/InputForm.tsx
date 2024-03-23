@@ -74,14 +74,12 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
     if (pointIndex === -1) pointIndex = decimalString.length;
 
     // remove trailing 0s
-    let inc = 0;
     let j = decimalString.length - 1;
     while (decimalString.charAt(j) === "0" || decimalString.charAt(j) === ".") {
-
       if (j < pointIndex) {
         // if 0 is part of the whole number, move decimal point to the left
         exponentDecimal += 1;
-        pointIndex -= 1
+        pointIndex -= 1;
       }
       decimalString = decimalString.substring(0, j);
       j--;
@@ -114,31 +112,22 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
       }
     }
     // move decimal point to end of last digit
+    if (negative) {
+      decimalString = decimalString.replace("-", "");
+    }
     pointIndex = decimalString.indexOf(".");
-    if (pointIndex === -1) pointIndex = decimalString.length - 1;
-
+    if (pointIndex === -1) pointIndex = decimalDigits;
     let shift = 0;
+    // console.log("pointIndex", pointIndex);
+    // console.log("decimalDigits", decimalDigits);
 
     // if pointIndex is greater than 33, shift point to the left
-    if (pointIndex > 33) {
-      shift = decimalString.length - 34;
-      if (negative) shift -= 1;
+    if (pointIndex !== decimalDigits || pointIndex > 34) {
+      shift = 34 - pointIndex;
+      exponentDecimal -= shift;
     }
-    // if pointIndex is less than or equal to 33, shift point to the right
-    else {
-      shift = decimalString.length - pointIndex - 1;
-    }
-    exponentDecimal -= shift;
+    if (negative) decimalString = "-" + decimalString;
     decimalString = decimalString.replace(".", "");
-
-    if (exponentDecimal > 6177) {
-      alert("Error: Exponent is too large.");
-      return;
-    }
-    if (exponentDecimal < -6176) {
-      alert("Error: Exponent is too small.");
-      return;
-    }
 
     // console.log(decimalDigits);
     // console.log(values);
@@ -150,6 +139,9 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
       let round = 0;
       let roundIndex = 34;
       const negative = decimalString.startsWith("-");
+      if (negative) roundIndex = 35;
+      // console.log("to evaluate ", decimalString.charAt(roundIndex));
+
       if (!negative) {
         if (method === "truncation") {
           round = 0;
@@ -159,18 +151,20 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
           round = -1;
         } else if (method === "RTN-TE") {
           round = 0;
-          if (parseInt(decimalString.charAt(roundIndex)) > 4) {
+          if (parseInt(decimalString.charAt(roundIndex)) > 5) {
             round = 1;
-          } else if (parseInt(decimalString.charAt(roundIndex)) < 4) {
+          } else if (parseInt(decimalString.charAt(roundIndex)) < 5) {
             round = -1;
           } else {
-            let i = roundIndex + 1;
-            while (i < decimalString.length) {
-              if (parseInt(decimalString.substring(i)) > 0) {
-                round = 1;
-                break;
+            if (parseInt(decimalString.charAt(roundIndex - 1)) % 2 !== 0) {
+              let i = roundIndex;
+              while (i < decimalString.length) {
+                if (parseInt(decimalString.substring(i)) > 0) {
+                  round = 1;
+                  break;
+                }
+                i++;
               }
-              i++;
             }
           }
         }
@@ -185,18 +179,21 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
           round = 1;
         } else if (method === "RTN-TE") {
           round = 0;
-          if (parseInt(decimalString.charAt(roundIndex)) > 4) {
+          if (parseInt(decimalString.charAt(roundIndex)) > 5) {
             round = 1;
-          } else if (parseInt(decimalString.charAt(roundIndex)) < 4) {
+          } else if (parseInt(decimalString.charAt(roundIndex)) < 5) {
             round = -1;
           } else {
-            let i = roundIndex + 1;
-            while (i < decimalString.length) {
-              if (parseInt(decimalString.charAt(i)) > 0) {
-                round = -1;
-                break;
+            if (parseInt(decimalString.charAt(roundIndex - 1)) % 2 !== 0) {
+              let i = roundIndex;
+
+              while (i < decimalString.length) {
+                if (parseInt(decimalString.charAt(i)) > 0) {
+                  round = 1;
+                  break;
+                }
+                i++;
               }
-              i++;
             }
           }
         }
@@ -253,14 +250,11 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
 
     let E_PrimeBinary = padZeros(decimalToBinary(exponent + 6176), 14); //convert eprime to binary and pad 0's until it 14 bits
 
-    if (exponent > 6111) {                                 // infinity
-        CombiField = 
-        "1" +
-        "1" +
-        "1" +
-        "1" +
-        "0";
-    } else if (exponent <= 6111 && exponent >= -6176) {       // finite
+    if (exponent > 6111) {
+      // infinity
+      CombiField = "1" + "1" + "1" + "1" + "0";
+    } else if (exponent <= 6111 && exponent >= -6176) {
+      // finite
       const checkMSD = parseInt(MSD);
       if (checkMSD >= 0 && checkMSD <= 7) {
         CombiField =
@@ -279,13 +273,9 @@ export function ProfileForm({ passDecimal128, passHex }: Props) {
       } else {
         console.log("something went wrong");
       }
-    } else {                                                  // NaN
-      CombiField = 
-        "1" +
-        "1" +
-        "1" +
-        "1" +
-        "1";
+    } else {
+      // NaN
+      CombiField = "1" + "1" + "1" + "1" + "1";
     }
 
     //get exponential continuaton field
