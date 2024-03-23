@@ -8,12 +8,13 @@ _This project is for the CSARCH2 class at De La Salle University._
 
 # Table of Contents
 - [Introduction](#decimal-128-floating-point-converter)
-- Project Showcase Video
-- Test Cases
-   - Positive Cases
-   - Negative Cases
-   - Rounding to 34 digits (Positive) with Different Rounding Methods
-   - Rounding to 34 digits (Negative) with Different Rounding Methods
+- [Project Showcase Video](#project-showcase-video)
+- [Test Cases](#test-cases)
+   - [Positive Cases](#positive-cases)
+   - [Negative Cases](#negative-cases)
+   - [Rounding to 34 digits (Positive) with Different Rounding Methods](#rounding-to-34-digits-positive-with-different-rounding-methods)
+   - [Rounding to 34 digits (Negative) with Different Rounding Methods](#rounding-to-34-digits-negative-with-different-rounding-methods)
+- [Text File Output](#text-file-output)
 
 # Project Showcase Video
 Here is the video showcase of our program. The video consists of the build and run of the web application, including the test cases we conducted.
@@ -95,6 +96,14 @@ $-1000000000000000000000000000000004.5_{10} x 10^{5}$
 
 $-1000000000000000000000000000000006.5_{10} x 10^{5}$
 <img width="1912" alt="image" src="https://github.com/thekovie/CSARCH2_SimulationProject/assets/40118781/0b1c6717-596e-4188-8b28-799ff204a603">
+
+# Text File Output
+Here is a preview of what the `.txt` file should look like if the user prompts to download the result.
+<div align="center">
+   <img width="758" alt="image" src="https://github.com/thekovie/CSARCH2_SimulationProject/assets/40118781/66a3b082-1850-4feb-b830-cff9a31a4c52">
+</div>
+
+
 
 
 
